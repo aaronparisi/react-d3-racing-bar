@@ -1,3 +1,7 @@
+# Project Description
+
+This is a playground of racing bar charts using the [react-d3](https://react-d3-library.github.io/) library. Demonstrates manipulation of data from an API and understanding of D3 principles.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
