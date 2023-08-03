@@ -3,14 +3,10 @@ export const randomColor = () =>
 export const generateBarColors = (data) => {
   const ret = {};
 
-  Object.keys(data).forEach((metric) => {
-    const metricData = data[metric];
-    const dates = Object.keys(metricData);
-    dates.forEach((date) => {
-      const assetVals = metricData[date];
-      assetVals.forEach(({ asset, value }) => {
-        if (!ret[asset]) ret[asset] = '#' + randomColor();
-      });
+  Object.keys(data).forEach((date) => {
+    const dataForDate = data[date];
+    dataForDate.forEach(({ state }) => {
+      if (!ret[state]) ret[state] = '#' + randomColor();
     });
   });
 

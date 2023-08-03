@@ -29,18 +29,18 @@ const RacingBar = ({ data }) => {
   const FONT_SIZE = 12;
   const X_AXIS_TOP_OFFSET = 10;
   const CURRENT_DATE_DISPLAY_BOTTOM_OFFSET = 30;
-  const RACE_INTERVAL = 100;
-
-  const [barColors, setBarColors] = useState(() =>
-    // TODO either write a useEffect for this or just make it a regular global
-    utils.generateBarColors(data)
-  );
-  const [curDateIdx, setCurDateIdx] = useState(0);
-  const [raceRunning, setRaceRunning] = useState(false);
+  const RACE_INTERVAL = 2000;
 
   const getCurDate = () => {
     return Object.keys(data)[curDateIdx];
   };
+
+  const [curDateIdx, setCurDateIdx] = useState(0);
+  const [barColors, setBarColors] = useState(() =>
+    // TODO either write a useEffect for this or just make it a regular global
+    utils.generateBarColors(data)
+  );
+  const [raceRunning, setRaceRunning] = useState(false);
 
   useEffect(() => {
     if (Object.keys(data).length === 0) return;

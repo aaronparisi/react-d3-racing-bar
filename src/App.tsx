@@ -40,7 +40,7 @@ function App() {
 
   return (
     <div className="App">
-      <RacingBar data={data} />
+      {Object.keys(data).length > 0 ? <RacingBar data={data} /> : ''}
       <RaceControls />
     </div>
   );
