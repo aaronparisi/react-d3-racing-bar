@@ -112,7 +112,7 @@ const RacingBar = ({ info, data }) => {
       .enter()
       .append('text')
       .classed('bar-label', true)
-      .attr('y', () => dimensions.height)
+      .attr('y', () => dimensions.height + 200)
       .merge(barLabels)
       .text(({ state, total }) => `${state}: ${parseFloat(total).toFixed(0)}`)
       .transition()
@@ -124,12 +124,21 @@ const RacingBar = ({ info, data }) => {
           X_AXIS_TOP_OFFSET * 2 +
           (yScale.bandwidth() + FONT_SIZE) / 2
       );
-    barLabels.exit().transition().attr('y', dimensions.height).remove();
+    barLabels
+      .exit()
+      .transition()
+      .attr('y', dimensions.height + 200)
+      .remove();
+    // NOTE: when race interval is 300ms, I was able to exit the bar labels to `dimensions.height`
+    //       but when I set race interval to 100ms, labels were getting "orphaned" at the bottom
+    //       of the chart area... not sure why yet.
+    //       In any event, ensuring to enter and exit barLabels (and bars) _beyond_ the bottom
+    //       of the chart seems to work fine
 
     bars
       .enter()
       .append('rect')
-      .attr('y', () => dimensions.height)
+      .attr('y', () => dimensions.height + 200)
       .merge(bars)
       .classed('bar', true)
       .attr('fill', ({ state }) => barColors[state])
@@ -137,7 +146,11 @@ const RacingBar = ({ info, data }) => {
       .transition()
       .attr('width', ({ total }) => xScale(total))
       .attr('y', ({ state }) => yScale(state) + X_AXIS_TOP_OFFSET * 2);
-    bars.exit().transition().attr('y', dimensions.height).remove();
+    bars
+      .exit()
+      .transition()
+      .attr('y', dimensions.height + 200)
+      .remove();
   }, [curDateIdx]);
 
   useEffect(() => {

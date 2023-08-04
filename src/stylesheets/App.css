@@ -8,32 +8,11 @@ body,
 
   min-height: 100vh;
 
-  padding: 2rem;
   display: flex;
   flex-direction: row;
   justify-content: stretch;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 1rem;
-}
-
-.data-offering {
-  flex-basis: 10vw;
-  border: 1px solid #cccccc;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1rem;
-}
-
-.data-offering h3 {
-  text-decoration: underline;
-}
-
-.data-offering li {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
 h1,
@@ -64,11 +43,32 @@ button:hover {
   cursor: pointer;
 }
 
+.data-offering {
+  flex-basis: 10vw;
+  border-right: 1px solid #cccccc;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.data-offering h3 {
+  text-decoration: underline;
+}
+
+.data-offering li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .racing-bar-container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   align-items: center;
+  padding: 1rem;
 }
 
 .race-controls {
