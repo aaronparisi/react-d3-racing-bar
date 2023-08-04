@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 import * as utils from '../utils/racingBarUtils.js';
-import RaceControls from './RaceControls.tsx';
+import RaceControls from './RaceControls';
 
-const RacingBar = ({ data }) => {
+const RacingBar = ({ info, data }) => {
   const containerRef = useRef(null);
   const svgRef = useRef(null);
   const tickRef = useRef();
@@ -152,6 +152,10 @@ const RacingBar = ({ data }) => {
 
   return (
     <section className="racing-bar-container" ref={containerRef}>
+      <section className="racing-bar-info">
+        <h1>{info.title}</h1>
+        <a href={info.url}>Covid19-India API</a>
+      </section>
       <svg ref={svgRef} className="racing-bar">
         <g className="x-axis" />
       </svg>

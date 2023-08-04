@@ -13,6 +13,10 @@ export interface TimeseriesDataset {
 
 function App() {
   const [data, setData] = useState<TimeseriesDataset>({});
+  const covidMetaInfo = {
+    title: 'Covid-19 counts by state, India',
+    url: 'https://data.covid19india.org/',
+  };
 
   const processData: any = (data: any) => {
     const processedData: TimeseriesDataset = {};
@@ -47,7 +51,11 @@ function App() {
 
   return (
     <div className="App">
-      {Object.keys(data).length > 0 ? <RacingBar data={data} /> : ''}
+      {Object.keys(data).length > 0 ? (
+        <RacingBar info={covidMetaInfo} data={data} />
+      ) : (
+        ''
+      )}
     </div>
   );
 }
