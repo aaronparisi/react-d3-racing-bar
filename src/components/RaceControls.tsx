@@ -19,8 +19,8 @@ const RaceControls: React.FC<RaceControlsProps> = ({
         <button onClick={toggleRacing} className="Button" id="play-pause">
           {racing ? `\u23F8` : `\u23F5`}
         </button>
-        <button className="Button" id="restart">
-          {`\u23EA`}
+        <button onClick={restart} className="Button" id="restart">
+          {`\u23EE`}
         </button>
       </section>
     </section>

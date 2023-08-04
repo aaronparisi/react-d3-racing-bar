@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 import * as utils from '../utils/racingBarUtils.js';
-import RaceControls from './RaceControls.js';
+import RaceControls from './RaceControls.tsx';
 
 const RacingBar = ({ data }) => {
   const containerRef = useRef(null);
