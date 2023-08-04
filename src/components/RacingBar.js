@@ -43,9 +43,11 @@ const RacingBar = ({ data }) => {
   const [raceRunning, setRaceRunning] = useState(false);
 
   useEffect(() => {
+    // if (curDateIdx > 1) return; // NOTE for testing
+    // "tick"
     if (Object.keys(data).length === 0) return;
 
-    const dataForDate = data[getCurDate()];
+    const dataForDate = data[getCurDate()].slice(0, 20);
     const maxValue = dataForDate[0].total;
 
     const yScale = d3

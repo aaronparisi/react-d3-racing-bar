@@ -15,24 +15,32 @@ export interface TimeseriesDataset {
 function App() {
   const [data, setData] = useState<TimeseriesDataset>({});
 
+  const processData: any = (data: any) => {
+    const processedData: TimeseriesDataset = {};
+
+    // reshape
+    Object.keys(data).forEach((state) => {
+      if (state === 'TT') return;
+      Object.keys(data[state].dates).forEach((date) => {
+        if (!processedData[date]) processedData[date] = [];
+        processedData[date].push({
+          state: state,
+          total: data[state].dates[date].total?.confirmed ?? 0,
+        });
+      });
+    });
+
+    // sort
+    Object.keys(processedData).forEach((date) => {
+      processedData[date].sort((a, b) => b.total - a.total);
+    });
+
+    return processedData;
+  };
   const getData = () => {
     fetch('https://data.covid19india.org/v4/min/timeseries.min.json')
       .then((res) => res.json())
-      .then((data) => {
-        const processedData: TimeseriesDataset = {};
-        Object.keys(data).forEach((state) => {
-          if (state === 'TT') return;
-          Object.keys(data[state].dates).forEach((date) => {
-            if (!processedData[date]) processedData[date] = [];
-            processedData[date].push({
-              state: state,
-              total: data[state].dates[date].total?.confirmed ?? 0,
-            });
-          });
-        });
-
-        setData(processedData);
-      });
+      .then((data) => setData(processData(data)));
   };
   useEffect(() => {
     getData();
