@@ -58,8 +58,17 @@ function App() {
     Object.keys(processedData).forEach((date) => {
       processedData[date].sort((a, b) => b.total - a.total);
     });
+    const sortedKeys = Object.keys(processedData).sort((a, b) => {
+      return new Date(a).getTime() - new Date(b).getTime();
+    });
+    const sortedProcessedData = sortedKeys.reduce((acc, key) => {
+      return {
+        ...acc,
+        [key]: processedData[key],
+      };
+    }, {});
 
-    return processedData;
+    return sortedProcessedData;
   };
   const getCovidData = () => {
     fetch('https://data.covid19india.org/v4/min/timeseries.min.json')
