@@ -37,7 +37,9 @@ const RacingBar = ({ info, data }) => {
     setCurDateIdx(0);
   };
   const handleSliderInput = (e) => {
-    setCurDateIdx(e.target.value);
+    setRacing(false);
+    clearInterval(tickRef.current);
+    setCurDateIdx(Number(e.target.value));
   };
 
   // initial selection
@@ -146,7 +148,6 @@ const RacingBar = ({ info, data }) => {
         if (Object.keys(data).length === 0) return;
         setCurDateIdx((prev) => {
           return (prev + 1) % Object.keys(data).length;
-          // return (prev + 1) % data[Object.keys(data)[prev]].length;
         });
       }, RACE_INTERVAL);
     }
@@ -154,7 +155,6 @@ const RacingBar = ({ info, data }) => {
     return () => clearInterval(tickRef.current);
   }, [racing, data]);
 
-  console.log(curDateIdx);
   return (
     <section className="racing-bar-container" ref={containerRef}>
       <section className="racing-bar-info">
