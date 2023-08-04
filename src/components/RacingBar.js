@@ -12,24 +12,11 @@ const RacingBar = ({ data }) => {
     height: 500,
     margins: 20,
   };
-  const svg = d3
-    .select(svgRef.current)
-    .classed('racing-bar', true)
-    .attr('width', dimensions.width)
-    .attr('height', dimensions.height);
-  const container = svg
-    .append('g')
-    .classed('container', true)
-    .attr(
-      'transform',
-      `translate(${dimensions.margins}, ${dimensions.margins})`
-    );
-  const xAxisGroup = container.append('g');
 
   const FONT_SIZE = 12;
   const X_AXIS_TOP_OFFSET = 10;
   const CURRENT_DATE_DISPLAY_BOTTOM_OFFSET = 30;
-  const RACE_INTERVAL = 2000;
+  const RACE_INTERVAL = 300;
 
   const getCurDate = () => {
     return Object.keys(data)[curDateIdx];
@@ -41,6 +28,17 @@ const RacingBar = ({ data }) => {
     utils.generateBarColors(data)
   );
   const [raceRunning, setRaceRunning] = useState(false);
+
+  // initial selection
+  const svg = d3
+    .select(svgRef.current)
+    .classed('racing-bar', true)
+    .attr('width', dimensions.width)
+    .attr('height', dimensions.height);
+  const xAxisGroup = svg.select('.x-axis');
+  xAxisGroup
+    .attr('class', 'x-axis')
+    .attr('transform', `translate(0, ${FONT_SIZE + X_AXIS_TOP_OFFSET})`);
 
   useEffect(() => {
     // if (curDateIdx > 1) return; // NOTE for testing
@@ -67,13 +65,13 @@ const RacingBar = ({ data }) => {
       .range([0, dimensions.width - FONT_SIZE - 200]); // TODO magic number => bar rhs padding
     const xAxis = d3.axisTop(xScale);
 
-    const barLabels = container
+    const barLabels = svg
       .selectAll('.bar-label')
       .data(dataForDate, (data) => String(data.state));
-    const bars = container
+    const bars = svg
       .selectAll('.bar')
       .data(dataForDate, (data) => String(data.state));
-    const currentDateDisplay = container
+    const currentDateDisplay = svg
       .selectAll('#current-date')
       .data([getCurDate()], (curDate) => String(curDate));
 
@@ -139,7 +137,11 @@ const RacingBar = ({ data }) => {
 
     return () => clearInterval(tickRef.current);
   }, [data]);
-  return <svg ref={svgRef} className="racing-bar"></svg>;
+  return (
+    <svg ref={svgRef} className="racing-bar">
+      <g className="x-axis" />
+    </svg>
+  );
 };
 
 export default RacingBar;
