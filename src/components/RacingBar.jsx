@@ -36,6 +36,9 @@ const RacingBar = ({ info, data }) => {
   const restart = () => {
     setCurDateIdx(0);
   };
+  const handleSliderInput = (e) => {
+    setCurDateIdx(e.target.value);
+  };
 
   // initial selection
   const svg = d3
@@ -142,7 +145,8 @@ const RacingBar = ({ info, data }) => {
       tickRef.current = setInterval(() => {
         if (Object.keys(data).length === 0) return;
         setCurDateIdx((prev) => {
-          return (prev + 1) % data[Object.keys(data)[prev]].length;
+          return (prev + 1) % Object.keys(data).length;
+          // return (prev + 1) % data[Object.keys(data)[prev]].length;
         });
       }, RACE_INTERVAL);
     }
@@ -150,6 +154,7 @@ const RacingBar = ({ info, data }) => {
     return () => clearInterval(tickRef.current);
   }, [racing, data]);
 
+  console.log(curDateIdx);
   return (
     <section className="racing-bar-container" ref={containerRef}>
       <section className="racing-bar-info">
@@ -163,6 +168,9 @@ const RacingBar = ({ info, data }) => {
         restart={restart}
         toggleRacing={toggleRacing}
         racing={racing}
+        dates={Object.keys(data)}
+        curDateIdx={curDateIdx}
+        handleSliderInput={handleSliderInput}
       />
     </section>
   );

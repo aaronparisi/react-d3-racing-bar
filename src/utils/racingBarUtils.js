@@ -1,3 +1,5 @@
+import Color from 'ac-colors';
+
 export const randomColor = () =>
   Math.floor(Math.random() * 16777215).toString(16);
 export const generateBarColors = (data) => {
@@ -6,7 +8,25 @@ export const generateBarColors = (data) => {
   Object.keys(data).forEach((date) => {
     const dataForDate = data[date];
     dataForDate.forEach(({ state }) => {
-      if (!ret[state]) ret[state] = '#' + randomColor();
+      if (!ret[state]) {
+        let newColor = new Color({
+          color: Color.randomOfType('hex'),
+          type: 'hex',
+        });
+        const contrastColor = new Color();
+        // TODO not sure why this thew an error
+        // const contrastColor = new Color({
+        //   color: '#11111',
+        //   type: 'hex',
+        // });
+        while (Color.contrastRatio(newColor, contrastColor) < 3) {
+          newColor = new Color({
+            color: Color.randomOfType('hex'),
+            type: 'hex',
+          });
+        }
+        ret[state] = newColor.hex;
+      }
     });
   });
 
