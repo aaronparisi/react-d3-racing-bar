@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 import * as utils from '../utils/racingBarUtils.js';
+import RaceControls from './RaceControls.js';
 
 const RacingBar = ({ data }) => {
+  const containerRef = useRef(null);
   const svgRef = useRef(null);
   const tickRef = useRef();
 
-  // NOTE I wonder if this won't work since #racing-bar has not been SSR'd...
   const dimensions = {
     width: 1000,
     height: 500,
@@ -27,7 +28,14 @@ const RacingBar = ({ data }) => {
     // TODO either write a useEffect for this or just make it a regular global
     utils.generateBarColors(data)
   );
-  const [raceRunning, setRaceRunning] = useState(false);
+  const [racing, setRacing] = useState(true);
+
+  const toggleRacing = () => {
+    setRacing((prev) => !prev);
+  };
+  const restart = () => {
+    setCurDateIdx(0);
+  };
 
   // initial selection
   const svg = d3
@@ -128,19 +136,31 @@ const RacingBar = ({ data }) => {
   }, [curDateIdx]);
 
   useEffect(() => {
-    tickRef.current = setInterval(() => {
-      if (Object.keys(data).length === 0) return;
-      setCurDateIdx((prev) => {
-        return (prev + 1) % data[Object.keys(data)[prev]].length;
-      });
-    }, RACE_INTERVAL);
+    if (!racing) {
+      clearInterval(tickRef.current);
+    } else {
+      tickRef.current = setInterval(() => {
+        if (Object.keys(data).length === 0) return;
+        setCurDateIdx((prev) => {
+          return (prev + 1) % data[Object.keys(data)[prev]].length;
+        });
+      }, RACE_INTERVAL);
+    }
 
     return () => clearInterval(tickRef.current);
-  }, [data]);
+  }, [racing, data]);
+
   return (
-    <svg ref={svgRef} className="racing-bar">
-      <g className="x-axis" />
-    </svg>
+    <section className="racing-bar-container" ref={containerRef}>
+      <svg ref={svgRef} className="racing-bar">
+        <g className="x-axis" />
+      </svg>
+      <RaceControls
+        restart={restart}
+        toggleRacing={toggleRacing}
+        racing={racing}
+      />
+    </section>
   );
 };
 

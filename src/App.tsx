@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './stylesheets/reset.css';
 import './stylesheets/App.css';
 import RacingBar from './components/RacingBar';
-import RaceControls from './components/RaceControls';
 
 export interface DataPoint {
   state: string;
@@ -49,7 +48,6 @@ function App() {
   return (
     <div className="App">
       {Object.keys(data).length > 0 ? <RacingBar data={data} /> : ''}
-      <RaceControls />
     </div>
   );
 }
