@@ -11,14 +11,35 @@ export interface TimeseriesDataset {
   [key: string]: DataPoint[]; // NOTE these are _date_ strings, specifically
 }
 
+enum Dataset {
+  covid = 'covid',
+}
+
+export type DatasetCollection = {
+  [key in Dataset]: {
+    data: TimeseriesDataset[];
+    info: {
+      title: string;
+      url: string;
+    };
+  };
+};
+
 function App() {
-  const [data, setData] = useState<TimeseriesDataset>({});
-  const covidMetaInfo = {
-    title: 'Covid-19 counts by state, India',
-    url: 'https://data.covid19india.org/',
+  const [curDataset, setCurDataset] = useState<Dataset>(Dataset.covid);
+  const [datasets, setDatasets] = useState<DatasetCollection>(() => {
+    const ret = Object.keys(Dataset).reduce((acc, val) => {
+      return { ...acc, [val]: {} };
+    }, {} as DatasetCollection);
+
+    return ret;
+  });
+
+  const handleDatasetSelection = (e: any) => {
+    debugger;
   };
 
-  const processData: any = (data: any) => {
+  const processCovidData: any = (data: any) => {
     const processedData: TimeseriesDataset = {};
 
     // reshape
@@ -40,19 +61,47 @@ function App() {
 
     return processedData;
   };
-  const getData = () => {
+  const getCovidData = () => {
     fetch('https://data.covid19india.org/v4/min/timeseries.min.json')
       .then((res) => res.json())
-      .then((data) => setData(processData(data)));
+      .then((data) =>
+        setDatasets((prev) => {
+          return {
+            ...prev,
+            covid: {
+              data: processCovidData(data),
+              info: {
+                title: 'Covid-19 counts by state, India',
+                url: 'https://data.covid19india.org/',
+              },
+            },
+          };
+        })
+      ); // TODO update
   };
   useEffect(() => {
-    getData();
+    getCovidData();
   }, []);
 
   return (
     <div className="App">
-      {Object.keys(data).length > 0 ? (
-        <RacingBar info={covidMetaInfo} data={data} />
+      <section className="data-offering">
+        <h3>Data Offering</h3>
+        <ul>
+          {Object.keys(datasets).map((key) => {
+            return (
+              <li key={key}>
+                <button onClick={handleDatasetSelection}>{key}</button>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+      {Object.keys(datasets[Dataset[curDataset]]).length > 0 ? (
+        <RacingBar
+          info={datasets[Dataset[curDataset]].info}
+          data={datasets[Dataset[curDataset]].data}
+        />
       ) : (
         ''
       )}

@@ -17,7 +17,7 @@ const RacingBar = ({ info, data }) => {
   const FONT_SIZE = 12;
   const X_AXIS_TOP_OFFSET = 10;
   const CURRENT_DATE_DISPLAY_BOTTOM_OFFSET = 30;
-  const RACE_INTERVAL = 300;
+  const RACE_INTERVAL = 100;
 
   const getCurDate = () => {
     return Object.keys(data)[curDateIdx];
@@ -114,7 +114,7 @@ const RacingBar = ({ info, data }) => {
       .classed('bar-label', true)
       .attr('y', () => dimensions.height)
       .merge(barLabels)
-      .text(({ state, total }) => `${state}: ${parseFloat(total).toFixed(4)}`)
+      .text(({ state, total }) => `${state}: ${parseFloat(total).toFixed(0)}`)
       .transition()
       .attr('x', ({ total }) => xScale(total) + FONT_SIZE)
       .attr(
