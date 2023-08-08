@@ -36,6 +36,8 @@ function App() {
   });
 
   const handleDatasetSelection = (e: any) => {
+    // TODO what behavior do I want if user clicks on the current dataset?
+    // TODO style the selected dataset button accordingly
     setCurDataset(Dataset[Dataset[e.target.dataset.dataset as Dataset]]); // TODO naming sucks here
   };
 
@@ -103,6 +105,7 @@ function App() {
                 <button
                   data-dataset={Dataset[key as Dataset]}
                   onClick={handleDatasetSelection}
+                  className={key === curDataset ? 'button-selected' : ''}
                 >
                   {key}
                 </button>
