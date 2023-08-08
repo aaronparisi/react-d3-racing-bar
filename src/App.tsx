@@ -36,7 +36,7 @@ function App() {
   });
 
   const handleDatasetSelection = (e: any) => {
-    debugger;
+    setCurDataset(Dataset[Dataset[e.target.dataset.dataset as Dataset]]); // TODO naming sucks here
   };
 
   const processCovidData: any = (data: any) => {
@@ -100,7 +100,12 @@ function App() {
           {Object.keys(datasets).map((key) => {
             return (
               <li key={key}>
-                <button onClick={handleDatasetSelection}>{key}</button>
+                <button
+                  data-dataset={Dataset[key as Dataset]}
+                  onClick={handleDatasetSelection}
+                >
+                  {key}
+                </button>
               </li>
             );
           })}
