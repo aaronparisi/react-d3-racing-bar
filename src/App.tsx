@@ -122,6 +122,13 @@ function App() {
       ) : (
         ''
       )}
+      <p className="moratorium">
+        (Apparently, racing bar charts got so overdone that Reddit imposed a{' '}
+        <a href="https://www.reddit.com/r/dataisbeautiful/comments/e257go/announcing_a_moratorium_on_racing_bar_charts/">
+          moratorium
+        </a>{' '}
+        on them lol)
+      </p>
     </div>
   );
 }
