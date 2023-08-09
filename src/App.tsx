@@ -94,43 +94,47 @@ function App() {
     getCovidData();
   }, []);
 
-  return (
-    <div className="App">
-      <section className="data-offering">
-        <h3>Data Offering</h3>
-        <ul>
-          {Object.keys(datasets).map((key) => {
-            return (
-              <li key={key}>
-                <button
-                  data-dataset={Dataset[key as Dataset]}
-                  onClick={handleDatasetSelection}
-                  className={key === curDataset ? 'button-selected' : ''}
-                >
-                  {key}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
-      {Object.keys(datasets[Dataset[curDataset]]).length > 0 ? (
+  if (Object.keys(datasets[Dataset[curDataset]]).length > 0) {
+    return (
+      <div className="App">
+        <section className="data-offering">
+          <h3>Data Offering</h3>
+          <ul>
+            {Object.keys(datasets).map((key) => {
+              return (
+                <li key={key}>
+                  <button
+                    data-dataset={Dataset[key as Dataset]}
+                    onClick={handleDatasetSelection}
+                    className={key === curDataset ? 'button-selected' : ''}
+                  >
+                    {key}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
         <RacingBar
           info={datasets[Dataset[curDataset]].info}
           data={datasets[Dataset[curDataset]].data}
         />
-      ) : (
-        ''
-      )}
-      <p className="moratorium">
-        (Apparently, racing bar charts got so overdone that Reddit imposed a{' '}
-        <a href="https://www.reddit.com/r/dataisbeautiful/comments/e257go/announcing_a_moratorium_on_racing_bar_charts/">
-          moratorium
-        </a>{' '}
-        on them lol)
-      </p>
-    </div>
-  );
+        <p className="moratorium">
+          (Apparently, racing bar charts got so overdone that Reddit imposed a{' '}
+          <a href="https://www.reddit.com/r/dataisbeautiful/comments/e257go/announcing_a_moratorium_on_racing_bar_charts/">
+            moratorium
+          </a>{' '}
+          on them lol)
+        </p>
+      </div>
+    );
+  } else {
+    return (
+      <div className="App">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 }
 
 export default App;
