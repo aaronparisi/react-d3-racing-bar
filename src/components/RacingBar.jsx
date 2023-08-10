@@ -114,7 +114,9 @@ const RacingBar = ({ info, data }) => {
       .classed('bar-label', true)
       .attr('y', () => dimensions.height + 200)
       .merge(barLabels)
-      .text(({ state, total }) => `${state}: ${parseFloat(total).toFixed(0)}`)
+      .text(
+        ({ state, total }) => `${state}: ${parseFloat(total).toLocaleString()}`
+      )
       .transition()
       .attr('x', ({ total }) => xScale(total) + FONT_SIZE)
       .attr(
